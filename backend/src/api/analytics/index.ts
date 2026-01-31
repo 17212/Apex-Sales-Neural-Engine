@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 
 import { Hono } from 'hono';
-import { desc, eq, gte, and, sql } from 'drizzle-orm';
+import { desc, eq, gte } from 'drizzle-orm';
 
 import { db, schema } from '../../database/index.js';
 import { authMiddleware, type AuthContext } from '../../middleware/auth.js';

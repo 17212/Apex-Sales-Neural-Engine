@@ -63,7 +63,7 @@ authRoutes.post('/login', zValidator('json', loginSchema), async (c) => {
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN }
+      { expiresIn: env.JWT_EXPIRES_IN as string | number }
     );
     
     // Update last login
@@ -144,7 +144,7 @@ authRoutes.post('/register', zValidator('json', registerSchema), async (c) => {
     const token = jwt.sign(
       { userId: newUser.id, email: newUser.email, role: newUser.role },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN }
+      { expiresIn: env.JWT_EXPIRES_IN as string | number }
     );
     
     return c.json({

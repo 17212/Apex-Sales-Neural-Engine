@@ -1,71 +1,85 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Star, Quote } from 'lucide-react';
 
 const testimonials = [
   {
-    content: "النظام وفر علينا تكلفة فريق دعم كامل. الردود سريعة ودقيقة جداً، والعملاء لاحظوا الفرق.",
-    author: "أحمد حسن",
-    role: "مدير المبيعات - Fashion Brand",
-    avatar: "/avatars/1.png", // Use local or generic if possible, keeping simple
-    rating: 5,
+    quote: 'زادت مبيعاتنا 340% في أول 3 شهور. النظام بيرد على العملاء بسرعة ويفهم احتياجاتهم بشكل مذهل.',
+    author: 'أحمد محمد',
+    role: 'مؤسس متجر إلكتروني',
+    avatar: 'أ',
   },
   {
-    content: "أفضل استثمار لشركتنا الناشئة. البوت بيقفل صفقات واحنا نايمين حرفياً.",
-    author: "سارة محمد",
-    role: "Found, Tech Startups",
-    rating: 5,
+    quote: 'وفرنا 80% من وقت فريق خدمة العملاء. البوت بيتعامل مع الاستفسارات الروتينية وبيحول للموظفين بس لما الموضوع يحتاج.',
+    author: 'سارة أحمد',
+    role: 'مديرة عمليات',
+    avatar: 'س',
   },
   {
-    content: "الدقة في اللهجة المصرية مذهلة. مكنتش متخيل ان AI ممكن يفهم 'يا باشا' و 'يا ريس' ويرد صح.",
-    author: "كريم واكد",
-    role: "مالك متجر إلكتروني",
-    rating: 5,
+    quote: 'التكامل مع واتساب كان سلس جداً. عملاءنا بيحبوا سرعة الرد والتجربة الشخصية.',
+    author: 'محمد علي',
+    role: 'صاحب براند ملابس',
+    avatar: 'م',
   },
 ];
 
 export function Testimonials() {
   return (
-    <section id="testimonials" className="py-24 bg-[var(--bg-secondary)]/30 border-y border-[var(--border-default)]">
-      <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-            شركاء النجاح
-          </h2>
+    <section id="testimonials" className="py-24 md:py-32 bg-black">
+      <div className="mx-auto max-w-7xl px-6">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-sm font-medium text-zinc-500 mb-4"
+          >
+            قصص نجاح
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4"
+          >
+            عملاؤنا يتحدثون
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-lg text-zinc-400"
+          >
+            اكتشف كيف ساعدنا المئات من الشركات
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((item, index) => (
+        {/* Testimonials Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {testimonials.map((testimonial, index) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
+              key={testimonial.author}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="p-8 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-default)] relative"
+              className="p-6 rounded-2xl border border-white/5 bg-zinc-900/30 hover:border-white/10 transition-all"
             >
-              <Quote className="absolute top-6 left-6 w-6 h-6 text-[var(--text-tertiary)] opacity-50" />
-              
-              <div className="flex gap-0.5 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-[var(--text-primary)] fill-current" />
-                ))}
-              </div>
-
-              <p className="text-lg mb-8 leading-relaxed text-[var(--text-secondary)]">
-                "{item.content}"
-              </p>
-
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center font-bold text-[var(--text-secondary)]">
-                  {item.author[0]}
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-white font-semibold">
+                  {testimonial.avatar}
                 </div>
                 <div>
-                  <h4 className="font-bold text-sm">{item.author}</h4>
-                  <p className="text-xs text-[var(--text-tertiary)]">{item.role}</p>
+                  <p className="font-medium text-white">{testimonial.author}</p>
+                  <p className="text-sm text-zinc-500">{testimonial.role}</p>
                 </div>
               </div>
+              <p className="text-zinc-300 leading-relaxed">
+                &quot;{testimonial.quote}&quot;
+              </p>
             </motion.div>
           ))}
         </div>

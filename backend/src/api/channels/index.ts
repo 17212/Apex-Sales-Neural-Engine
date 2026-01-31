@@ -10,7 +10,7 @@ import { zValidator } from '@hono/zod-validator';
 import { eq } from 'drizzle-orm';
 
 import { db, schema } from '../../database/index.js';
-import { authMiddleware, requireRole, type AuthContext } from '../../middleware/auth.js';
+import { authMiddleware, type AuthContext } from '../../middleware/auth.js';
 import { env } from '../../core/config/index.js';
 
 export const channelsRoutes = new Hono<AuthContext>();

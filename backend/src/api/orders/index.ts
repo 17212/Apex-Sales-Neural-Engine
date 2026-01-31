@@ -5,7 +5,7 @@
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
-import { eq, desc, and, gte, lte } from 'drizzle-orm';
+import { eq, desc, and } from 'drizzle-orm';
 
 import { db, schema } from '../../database/index.js';
 import { authMiddleware, type AuthContext } from '../../middleware/auth.js';

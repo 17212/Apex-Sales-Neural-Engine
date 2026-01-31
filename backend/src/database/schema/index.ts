@@ -12,7 +12,6 @@ import {
   integer, 
   real,
   jsonb,
-  uuid,
   pgEnum,
   index,
   uniqueIndex,
