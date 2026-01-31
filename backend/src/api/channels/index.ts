@@ -151,7 +151,7 @@ channelsRoutes.post('/telegram', zValidator('json', telegramCredentialsSchema), 
       }
     );
     
-    const webhookResult = await setWebhookResponse.json();
+    const webhookResult = await setWebhookResponse.json() as { ok: boolean; description?: string };
     
     if (!webhookResult.ok) {
       return c.json({

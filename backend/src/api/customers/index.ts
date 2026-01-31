@@ -16,8 +16,8 @@ customersRoutes.get('/', async (c) => {
   try {
     const page = parseInt(c.req.query('page') || '1');
     const limit = parseInt(c.req.query('limit') || '20');
-    const segment = c.req.query('segment');
-    const search = c.req.query('search');
+    const _segment = c.req.query('segment'); // Reserved
+    const _search = c.req.query('search'); // Reserved
     
     const customers = await db.query.customers.findMany({
       limit,
@@ -96,7 +96,7 @@ customersRoutes.patch('/:id', async (c) => {
 customersRoutes.post('/:id/wallet/add', async (c) => {
   try {
     const id = c.req.param('id');
-    const { amount, reason } = await c.req.json();
+    const { amount, reason: _reason } = await c.req.json();
     
     const customer = await db.query.customers.findFirst({
       where: eq(schema.customers.id, id),
@@ -124,7 +124,7 @@ customersRoutes.post('/:id/wallet/add', async (c) => {
 customersRoutes.post('/:id/loyalty/add', async (c) => {
   try {
     const id = c.req.param('id');
-    const { points, reason } = await c.req.json();
+    const { points, reason: _reasonLoyalty } = await c.req.json();
     
     const customer = await db.query.customers.findFirst({
       where: eq(schema.customers.id, id),

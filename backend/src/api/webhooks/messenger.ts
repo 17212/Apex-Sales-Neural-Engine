@@ -98,7 +98,7 @@ async function processMessengerMessage(event: any, credentials: any) {
       const profileRes = await fetch(
         `https://graph.facebook.com/${senderId}?fields=name&access_token=${credentials.pageAccessToken}`
       );
-      const profile = await profileRes.json();
+      const profile = await profileRes.json() as { name?: string };
       if (profile.name) name = profile.name;
     } catch {}
     

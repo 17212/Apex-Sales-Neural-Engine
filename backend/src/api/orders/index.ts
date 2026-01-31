@@ -123,7 +123,7 @@ ordersRoutes.patch('/:id/status', zValidator('json', updateStatusSchema), async 
     // Broadcast update
     await broadcast.orderUpdated({
       id: updated.id,
-      status: updated.status,
+      status: updated.status ?? 'pending',
       updatedAt: updated.updatedAt,
     });
     

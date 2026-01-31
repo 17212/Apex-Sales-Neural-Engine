@@ -9,7 +9,6 @@ import { eq, desc, and } from 'drizzle-orm';
 
 import { db, schema } from '../../database/index.js';
 import { authMiddleware, type AuthContext } from '../../middleware/auth.js';
-import { generateSalesResponse, analyzeSentiment, detectIntent } from '../../core/ai/gemini-engine.js';
 import { broadcast } from '../../core/realtime/pusher.js';
 
 export const conversationsRoutes = new Hono<AuthContext>();
@@ -25,7 +24,7 @@ conversationsRoutes.get('/', async (c) => {
     const limit = parseInt(c.req.query('limit') || '20');
     const channel = c.req.query('channel');
     const status = c.req.query('status'); // active, handoff, closed
-    const search = c.req.query('search');
+    const _search = c.req.query('search'); // Reserved for future
     
     let whereConditions = [];
     

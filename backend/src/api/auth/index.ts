@@ -15,6 +15,21 @@ import { authMiddleware, type AuthContext } from '../../middleware/auth.js';
 
 export const authRoutes = new Hono<AuthContext>();
 
+// Helper function to parse expiry string to seconds
+function parseExpiryToSeconds(expiry: string): number {
+  const match = expiry.match(/^(\d+)([smhd])$/);
+  if (!match) return 604800; // Default: 7 days
+  const value = parseInt(match[1], 10);
+  const unit = match[2];
+  switch (unit) {
+    case 's': return value;
+    case 'm': return value * 60;
+    case 'h': return value * 60 * 60;
+    case 'd': return value * 24 * 60 * 60;
+    default: return 604800;
+  }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────────
 // Schemas
 // ─────────────────────────────────────────────────────────────────────────────────
@@ -63,7 +78,7 @@ authRoutes.post('/login', zValidator('json', loginSchema), async (c) => {
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN as string | number }
+      { expiresIn: parseExpiryToSeconds(env.JWT_EXPIRES_IN) }
     );
     
     // Update last login
@@ -144,7 +159,7 @@ authRoutes.post('/register', zValidator('json', registerSchema), async (c) => {
     const token = jwt.sign(
       { userId: newUser.id, email: newUser.email, role: newUser.role },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN as string | number }
+      { expiresIn: parseExpiryToSeconds(env.JWT_EXPIRES_IN) }
     );
     
     return c.json({

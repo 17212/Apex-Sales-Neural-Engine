@@ -178,7 +178,7 @@ productsRoutes.get('/alerts/low-stock', async (c) => {
       where: eq(schema.products.trackInventory, true),
     });
     
-    const lowStock = products.filter(p => p.stock <= (p.lowStockThreshold || 5));
+    const lowStock = products.filter(p => (p.stock ?? 0) <= (p.lowStockThreshold || 5));
     
     return c.json({
       success: true,
