@@ -160,11 +160,11 @@ const botRuleSchema = z.object({
   ruleType: z.string(),
   condition: z.object({
     type: z.string(),
-    value: z.any(),
+    value: z.any().optional().refine(val => val !== undefined, { message: "Value is required" }),
   }),
   action: z.object({
     type: z.string(),
-    value: z.any(),
+    value: z.any().optional().refine(val => val !== undefined, { message: "Value is required" }),
   }),
   priority: z.number().default(0),
 });

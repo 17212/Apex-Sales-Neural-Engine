@@ -67,7 +67,6 @@ telegramWebhook.post('/', async (c) => {
 
 async function processTelegramMessage(message: any, credentials: any) {
   const telegramId = String(message.from.id);
-  const chatId = String(message.chat.id);
   const messageText = message.text || '';
   
   // Find or create customer
