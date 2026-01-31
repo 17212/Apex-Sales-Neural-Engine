@@ -14,8 +14,8 @@ import { env, BOT_PERSONALITIES, LANGUAGES, type BotPersonality, type Language }
 const genAI = new GoogleGenAI({ apiKey: env.GEMINI_API_KEY });
 
 // Models
-const proModel = genAI.models.get(env.GEMINI_MODEL_PRO);
-const flashModel = genAI.models.get(env.GEMINI_MODEL_FLASH);
+const proModel = genAI.getGenerativeModel({ model: env.GEMINI_MODEL_PRO });
+const flashModel = genAI.getGenerativeModel({ model: env.GEMINI_MODEL_FLASH });
 
 // ─────────────────────────────────────────────────────────────────────────────────
 // Types
