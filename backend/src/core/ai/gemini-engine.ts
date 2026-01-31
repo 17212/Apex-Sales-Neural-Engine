@@ -169,9 +169,12 @@ export async function generateSalesResponse(
     })) || [];
     
     // Use Flash for speed, Pro for complex cases
-    const model = context.customerSegment === 'vip' ? proModel : flashModel;
+    const modelInstance = context.customerSegment === 'vip' 
+      ? await genAI.getGenerativeModel({ model: env.GEMINI_MODEL_PRO })
+      : await genAI.getGenerativeModel({ model: env.GEMINI_MODEL_FLASH });
     
-    const chat = model.startChat({
+    // @ts-ignore - Typescript confusion with Promise vs Instance
+    const chat = modelInstance.startChat({
       history: [
         { role: 'user', parts: [{ text: systemPrompt }] },
         { role: 'model', parts: [{ text: 'فهمت. أنا جاهز للمساعدة.' }] },

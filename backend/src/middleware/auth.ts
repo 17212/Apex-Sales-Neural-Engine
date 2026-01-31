@@ -77,8 +77,7 @@ export const authMiddleware = async (c: Context<AuthContext>, next: Next) => {
       role: user.role,
     });
     
-    await next();
-    return;
+    return next();
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
       return c.json({ success: false, error: 'انتهت صلاحية التوكن' }, 401);
@@ -103,7 +102,6 @@ export const requireRole = (...roles: string[]) => {
       return c.json({ success: false, error: 'ليس لديك صلاحية لهذا الإجراء' }, 403);
     }
     
-    await next();
-    return;
+    return next();
   };
 };

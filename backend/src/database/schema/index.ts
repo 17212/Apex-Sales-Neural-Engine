@@ -144,13 +144,14 @@ export const channelConnections = pgTable('channel_connections', {
     businessAccountId?: string;
     accessToken?: string;
     webhookVerifyToken?: string;
-    appSecret?: string;
+    waAppSecret?: string;
     // Telegram
     botToken?: string;
     webhookSecret?: string;
     // Facebook/Instagram
     pageAccessToken?: string;
     appId?: string;
+    appSecret?: string;
     pageId?: string;
   }>(),
   
