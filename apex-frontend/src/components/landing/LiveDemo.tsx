@@ -6,11 +6,11 @@ import styles from './LiveDemo.module.css';
 
 const demoMessages = [
   { role: 'customer', text: 'السلام عليكم، عايز أسأل عن الموبايل اللي عندكم' },
-  { role: 'ai', text: 'وعليكم السلام! 😊 أهلاً بيك. عندنا تشكيلة رائعة من الموبايلات. ممكن أساعدك تلاقي اللي يناسبك - بتدور على إيه بالظبط؟' },
+  { role: 'ai', text: 'وعليكم السلام! أهلاً بيك. عندنا تشكيلة رائعة من الموبايلات. بتدور على إيه بالظبط؟' },
   { role: 'customer', text: 'حاجة كويسة للتصوير وميزانيتي 10 آلاف' },
-  { role: 'ai', text: 'ممتاز! 📱 عندي اقتراحين هيعجبوك:\n\n1. Samsung A54 - كاميرا 50MP خرافية - 9,500 ج\n2. Xiaomi 13 Lite - كاميرا 108MP - 9,800 ج\n\nالاتنين عليهم ضمان سنة. عايز تفاصيل أكتر عن أي واحد؟' },
+  { role: 'ai', text: 'ممتاز! عندي اقتراحين:\n\n1. Samsung A54 - كاميرا 50MP - 9,500 ج\n2. Xiaomi 13 Lite - كاميرا 108MP - 9,800 ج\n\nعايز تفاصيل أكتر؟' },
   { role: 'customer', text: 'الشاومي شكله حلو، ممكن أطلبه؟' },
-  { role: 'ai', text: 'اختيار ممتاز! 🔥 Xiaomi 13 Lite متوفر بـ 3 ألوان (أسود - أبيض - أخضر).\n\n🛒 أضيفه للسلة؟\n📍 وفين تحب التوصيل؟' },
+  { role: 'ai', text: 'اختيار ممتاز! Xiaomi 13 Lite متوفر بـ 3 ألوان.\n\nأضيفه للسلة؟' },
 ];
 
 export default function LiveDemo() {
@@ -26,7 +26,7 @@ export default function LiveDemo() {
         setTimeout(() => {
           setCurrentIndex(index + 1);
           playNext(index + 1);
-        }, 1500);
+        }, 1200);
       } else {
         setIsPlaying(false);
       }
@@ -45,14 +45,8 @@ export default function LiveDemo() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <span className={styles.badge}>🎬 عرض مباشر</span>
-          <h2 className={styles.title}>
-            شوف Apex بيشتغل
-            <span className={styles.gradient}> بنفسك</span>
-          </h2>
-          <p className={styles.subtitle}>
-            محادثة حقيقية بين عميل والذكاء الاصطناعي
-          </p>
+          <h2 className={styles.title}>شوف بنفسك</h2>
+          <p className={styles.subtitle}>محادثة حقيقية بين عميل والذكاء الاصطناعي</p>
         </motion.div>
 
         {/* Chat Window */}
@@ -64,16 +58,9 @@ export default function LiveDemo() {
         >
           {/* Chat Header */}
           <div className={styles.chatHeader}>
-            <div className={styles.chatAvatar}>🧠</div>
             <div className={styles.chatInfo}>
-              <span className={styles.chatName}>Apex AI</span>
-              <span className={styles.chatStatus}>
-                <span className={styles.statusDot}></span>
-                متصل الآن
-              </span>
-            </div>
-            <div className={styles.chatActions}>
-              <span>⋯</span>
+              <span className={styles.chatName}>APEX AI</span>
+              <span className={styles.chatStatus}>متصل</span>
             </div>
           </div>
 
@@ -84,9 +71,8 @@ export default function LiveDemo() {
                 <motion.div
                   key={i}
                   className={`${styles.message} ${styles[msg.role]}`}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
                 >
                   <div className={styles.messageContent}>
                     {msg.text.split('\n').map((line, j) => (
@@ -100,9 +86,7 @@ export default function LiveDemo() {
             {isPlaying && currentIndex < demoMessages.length && (
               <div className={`${styles.message} ${styles[demoMessages[currentIndex].role]}`}>
                 <div className={styles.typing}>
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                  <span></span><span></span><span></span>
                 </div>
               </div>
             )}
@@ -112,15 +96,14 @@ export default function LiveDemo() {
           {!isPlaying && currentIndex === 0 && (
             <div className={styles.playOverlay}>
               <button className={styles.playButton} onClick={playDemo}>
-                <span className={styles.playIcon}>▶</span>
-                <span>شغّل العرض</span>
+                شغّل العرض
               </button>
             </div>
           )}
           
           {!isPlaying && currentIndex > 0 && (
             <button className={styles.replayButton} onClick={playDemo}>
-              🔄 إعادة العرض
+              إعادة العرض
             </button>
           )}
         </motion.div>

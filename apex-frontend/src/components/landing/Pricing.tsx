@@ -6,55 +6,26 @@ import styles from './Pricing.module.css';
 
 const plans = [
   {
-    name: 'Starter',
-    nameAr: 'المبتدئ',
+    name: 'مجاني',
     price: 0,
-    period: 'شهرياً',
-    description: 'مثالي للتجربة والمتاجر الصغيرة',
-    features: [
-      '100 محادثة/شهر',
-      'قناة واحدة (Web Chat)',
-      'AI أساسي',
-      'Dashboard بسيط',
-      'دعم عبر البريد',
-    ],
+    description: 'للتجربة والمتاجر الصغيرة',
+    features: ['100 محادثة/شهر', 'قناة واحدة', 'AI أساسي'],
     cta: 'ابدأ مجاناً',
-    popular: false,
   },
   {
-    name: 'Pro',
-    nameAr: 'الاحترافي',
+    name: 'احترافي',
     price: 499,
-    period: 'شهرياً',
-    description: 'للمتاجر المتوسطة والنامية',
-    features: [
-      '2,000 محادثة/شهر',
-      '3 قنوات (Web + WhatsApp + Telegram)',
-      'AI متقدم (Gemini 2.5)',
-      'Analytics كاملة',
-      'نظام الولاء والمحفظة',
-      'دعم أولوية 24/7',
-    ],
+    description: 'للمتاجر المتوسطة',
+    features: ['2,000 محادثة', '3 قنوات', 'AI متقدم', 'نظام الولاء', 'دعم 24/7'],
     cta: 'ابدأ الآن',
     popular: true,
   },
   {
-    name: 'Enterprise',
-    nameAr: 'المؤسسي',
+    name: 'مؤسسي',
     price: null,
-    period: '',
-    description: 'للشركات الكبيرة والحلول المخصصة',
-    features: [
-      'محادثات غير محدودة',
-      'كل القنوات',
-      'AI مخصص (Fine-tuned)',
-      'API كاملة',
-      'تكامل ERP',
-      'مدير حساب مخصص',
-      'SLA مضمون',
-    ],
+    description: 'للشركات الكبيرة',
+    features: ['محادثات غير محدودة', 'كل القنوات', 'AI مخصص', 'API كاملة', 'مدير حساب'],
     cta: 'تواصل معنا',
-    popular: false,
   },
 ];
 
@@ -69,17 +40,11 @@ export default function Pricing() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <span className={styles.badge}>💰 الأسعار</span>
-          <h2 className={styles.title}>
-            خطة لكل
-            <span className={styles.gradient}> حجم</span>
-          </h2>
-          <p className={styles.subtitle}>
-            ابدأ مجاناً وارتقِ حسب نمو عملك
-          </p>
+          <h2 className={styles.title}>الأسعار</h2>
+          <p className={styles.subtitle}>ابدأ مجاناً وارتقِ حسب نموك</p>
         </motion.div>
 
-        {/* Plans Grid */}
+        {/* Plans */}
         <div className={styles.grid}>
           {plans.map((plan, index) => (
             <motion.div
@@ -90,55 +55,37 @@ export default function Pricing() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              {plan.popular && (
-                <div className={styles.popularBadge}>الأكثر شعبية ⭐</div>
-              )}
+              {plan.popular && <div className={styles.badge}>الأكثر شعبية</div>}
               
-              <div className={styles.cardHeader}>
-                <h3 className={styles.planName}>{plan.nameAr}</h3>
-                <p className={styles.planDesc}>{plan.description}</p>
-              </div>
+              <h3 className={styles.planName}>{plan.name}</h3>
+              <p className={styles.planDesc}>{plan.description}</p>
 
-              <div className={styles.priceWrapper}>
+              <div className={styles.priceWrap}>
                 {plan.price !== null ? (
                   <>
-                    <span className={styles.currency}>ج.م</span>
                     <span className={styles.price}>{plan.price}</span>
-                    <span className={styles.period}>/{plan.period}</span>
+                    <span className={styles.currency}>ج.م / شهر</span>
                   </>
                 ) : (
-                  <span className={styles.customPrice}>سعر مخصص</span>
+                  <span className={styles.custom}>سعر مخصص</span>
                 )}
               </div>
 
               <ul className={styles.features}>
-                {plan.features.map((feature) => (
-                  <li key={feature} className={styles.feature}>
-                    <span className={styles.checkIcon}>✓</span>
-                    <span>{feature}</span>
-                  </li>
+                {plan.features.map((f) => (
+                  <li key={f}>{f}</li>
                 ))}
               </ul>
 
               <Link
                 href={plan.price === null ? '/contact' : '/auth/register'}
-                className={`${styles.ctaButton} ${plan.popular ? styles.ctaPrimary : styles.ctaSecondary}`}
+                className={`${styles.cta} ${plan.popular ? styles.ctaPopular : ''}`}
               >
                 {plan.cta}
               </Link>
             </motion.div>
           ))}
         </div>
-
-        {/* Money Back */}
-        <motion.p
-          className={styles.guarantee}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          🛡️ ضمان استرداد الأموال خلال 14 يوم - بدون أي أسئلة
-        </motion.p>
       </div>
     </section>
   );

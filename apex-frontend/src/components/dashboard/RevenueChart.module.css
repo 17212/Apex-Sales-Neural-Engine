@@ -1,7 +1,7 @@
 .container {
   padding: var(--space-6);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: var(--gray-950);
+  border: 1px solid var(--gray-900);
   border-radius: var(--radius-xl);
   height: 100%;
 }
@@ -13,40 +13,26 @@
   margin-bottom: var(--space-6);
 }
 
-.headerLeft {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
 .title {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   font-weight: var(--font-semibold);
-  margin-bottom: 0;
-}
-
-.summary {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  color: var(--white);
+  margin-bottom: var(--space-2);
 }
 
 .summaryValue {
   font-family: var(--font-display);
-  font-size: var(--text-2xl);
+  font-size: var(--text-xl);
   font-weight: var(--font-bold);
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--white);
 }
 
 .summaryLabel {
   font-size: var(--text-sm);
-  color: var(--text-muted);
+  color: var(--gray-500);
+  display: block;
 }
 
-/* Period Buttons */
 .periodButtons {
   display: flex;
   gap: var(--space-2);
@@ -54,24 +40,22 @@
 
 .periodBtn {
   padding: var(--space-2) var(--space-3);
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-default);
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
   border-radius: var(--radius-md);
-  color: var(--text-muted);
+  color: var(--gray-400);
   font-size: var(--text-xs);
   cursor: pointer;
-  transition: all var(--transition-fast);
 }
 
 .periodBtn:hover {
-  background: var(--bg-hover);
-  color: var(--text-primary);
+  background: var(--gray-800);
 }
 
 .periodBtn.active {
-  background: var(--color-primary-500);
-  border-color: var(--color-primary-500);
-  color: white;
+  background: var(--white);
+  border-color: var(--white);
+  color: var(--black);
 }
 
 /* Chart */
@@ -80,7 +64,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-3);
-  height: 250px;
+  height: 200px;
   padding-top: var(--space-4);
 }
 
@@ -89,20 +73,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 60px;
 }
 
 .barInner {
   position: relative;
   width: 100%;
   height: 100%;
-  background: var(--gradient-primary);
+  background: var(--gray-700);
   border-radius: var(--radius-md) var(--radius-md) 0 0;
-  transition: all var(--transition-fast);
+  transition: background var(--transition-fast);
 }
 
 .barInner:hover {
-  filter: brightness(1.2);
+  background: var(--white);
 }
 
 .tooltip {
@@ -110,19 +93,14 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  padding: var(--space-2) var(--space-3);
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-default);
+  padding: var(--space-2);
+  background: var(--gray-800);
   border-radius: var(--radius-md);
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
   transition: all var(--transition-fast);
   z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
 }
 
 .barInner:hover .tooltip {
@@ -134,17 +112,17 @@
 .tooltipValue {
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
-  color: var(--text-primary);
+  color: var(--white);
+  display: block;
 }
 
 .tooltipOrders {
   font-size: var(--text-xs);
-  color: var(--text-muted);
+  color: var(--gray-400);
 }
 
 .barLabel {
   margin-top: var(--space-2);
   font-size: var(--text-xs);
-  color: var(--text-muted);
-  text-align: center;
+  color: var(--gray-500);
 }

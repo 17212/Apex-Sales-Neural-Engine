@@ -9,12 +9,10 @@
 }
 
 .header.scrolled {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-bottom: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  padding: var(--space-3) 0;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--gray-900);
 }
 
 .nav {
@@ -28,24 +26,15 @@
 
 /* Logo */
 .logo {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
   text-decoration: none;
-}
-
-.logoIcon {
-  font-size: var(--text-2xl);
 }
 
 .logoText {
   font-family: var(--font-display);
   font-size: var(--text-xl);
   font-weight: var(--font-extrabold);
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--white);
+  letter-spacing: var(--tracking-wider);
 }
 
 /* Navigation Links */
@@ -59,16 +48,14 @@
 .navLink {
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
-  color: var(--text-secondary);
+  color: var(--gray-400);
   text-decoration: none;
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
+  padding: var(--space-2);
+  transition: color var(--transition-fast);
 }
 
 .navLink:hover {
-  color: var(--text-primary);
-  background: var(--glass-bg);
+  color: var(--white);
 }
 
 /* CTA Buttons */
@@ -81,32 +68,30 @@
 .loginBtn {
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
-  color: var(--text-secondary);
+  color: var(--gray-400);
   text-decoration: none;
   padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-lg);
-  transition: all var(--transition-fast);
+  transition: color var(--transition-fast);
 }
 
 .loginBtn:hover {
-  color: var(--text-primary);
+  color: var(--white);
 }
 
 .registerBtn {
   font-size: var(--text-sm);
-  font-weight: var(--font-semibold);
-  color: white;
+  font-weight: var(--font-medium);
+  color: var(--black);
   text-decoration: none;
   padding: var(--space-2) var(--space-5);
-  background: var(--gradient-primary);
+  background: var(--white);
   border-radius: var(--radius-lg);
   transition: all var(--transition-base);
-  box-shadow: var(--shadow-glow-sm);
 }
 
 .registerBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-glow);
+  background: var(--gray-200);
+  transform: translateY(-1px);
 }
 
 /* Mobile Toggle */
@@ -121,9 +106,9 @@
 .hamburger {
   display: block;
   position: relative;
-  width: 24px;
+  width: 20px;
   height: 2px;
-  background: var(--text-primary);
+  background: var(--white);
   transition: all var(--transition-fast);
 }
 
@@ -134,17 +119,12 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background: var(--text-primary);
+  background: var(--white);
   transition: all var(--transition-fast);
 }
 
-.hamburger::before {
-  top: -8px;
-}
-
-.hamburger::after {
-  bottom: -8px;
-}
+.hamburger::before { top: -6px; }
+.hamburger::after { bottom: -6px; }
 
 .hamburger.open {
   background: transparent;
@@ -163,30 +143,29 @@
 /* Mobile Menu */
 .mobileMenu {
   display: none;
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-default);
-  overflow: hidden;
+  background: var(--black);
+  border-bottom: 1px solid var(--gray-900);
+  padding: var(--space-6);
 }
 
 .mobileLinks {
   list-style: none;
-  padding: var(--space-4) var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .mobileLink {
   display: block;
   padding: var(--space-3) 0;
-  color: var(--text-secondary);
+  color: var(--gray-300);
   text-decoration: none;
   font-size: var(--text-base);
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--gray-900);
 }
 
 .mobileCta {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  padding: var(--space-4) var(--space-6);
 }
 
 .loginBtnMobile,
@@ -200,22 +179,19 @@
 }
 
 .loginBtnMobile {
-  color: var(--text-primary);
-  background: var(--glass-bg);
-  border: 1px solid var(--border-default);
+  color: var(--white);
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
 }
 
 .registerBtnMobile {
-  color: white;
-  background: var(--gradient-primary);
+  color: var(--black);
+  background: var(--white);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .navLinks {
-    display: none;
-  }
-  
+  .navLinks,
   .cta {
     display: none;
   }
