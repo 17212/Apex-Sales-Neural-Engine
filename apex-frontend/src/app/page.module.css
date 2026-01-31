@@ -1,16 +1,10 @@
-.main {
-  min-height: 100vh;
-  background: var(--black);
-}
-
-/* Loader */
 .loader {
   position: fixed;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--black);
+  background: var(--bg-primary);
   z-index: 9999;
 }
 
@@ -18,33 +12,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-6);
+  gap: var(--space-4);
 }
 
-.loaderText {
+.loaderIcon {
+  font-size: 4rem;
+}
+
+.loaderContent h2 {
   font-family: var(--font-display);
   font-size: var(--text-3xl);
   font-weight: var(--font-extrabold);
-  color: var(--white);
-  letter-spacing: var(--tracking-wider);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.loaderBar {
-  width: 120px;
-  height: 2px;
-  background: var(--gray-800);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-}
-
-.loaderProgress {
-  width: 0;
-  height: 100%;
-  background: var(--white);
-  animation: loading 1.5s ease forwards;
-}
-
-@keyframes loading {
-  0% { width: 0; }
-  100% { width: 100%; }
+.loaderContent p {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
 }

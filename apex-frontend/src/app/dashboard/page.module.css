@@ -1,63 +1,14 @@
-.container {
-  display: flex;
-  min-height: 100vh;
-  background: var(--black);
-}
-
-.main {
-  flex: 1;
-  margin-right: var(--sidebar-width);
-  transition: margin-right var(--transition-base);
-}
-
-.container.collapsed .main {
-  margin-right: var(--sidebar-collapsed);
-}
-
-.content {
-  padding: var(--space-6);
-  padding-top: calc(var(--topbar-height) + var(--space-6));
-}
-
-/* Header */
-.header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: var(--space-8);
-}
-
-.title {
-  font-size: var(--text-2xl);
-  font-weight: var(--font-bold);
-  color: var(--white);
-  margin-bottom: var(--space-1);
-}
-
-.subtitle {
-  font-size: var(--text-sm);
-  color: var(--gray-500);
-  margin-bottom: 0;
-}
-
-.today {
-  font-size: var(--text-sm);
-  color: var(--gray-600);
-}
-
-/* Grid */
-.grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: var(--space-6);
-}
-
-@media (max-width: 1024px) {
-  .main {
-    margin-right: 0;
-  }
-  
-  .grid {
-    grid-template-columns: 1fr;
-  }
-}
+.container { display: flex; min-height: 100vh; background: var(--bg-primary); }
+.main { flex: 1; margin-right: var(--sidebar-width); transition: margin-right var(--transition-base); }
+.container.collapsed .main { margin-right: var(--sidebar-collapsed); }
+.content { padding: var(--space-6); padding-top: calc(var(--topbar-height) + var(--space-6)); }
+.header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: var(--space-8); }
+.headerText { display: flex; flex-direction: column; gap: var(--space-1); }
+.title { font-size: var(--text-3xl); font-weight: var(--font-bold); margin-bottom: 0; }
+.subtitle { font-size: var(--text-base); color: var(--text-muted); margin-bottom: 0; }
+.headerDate { text-align: left; }
+.today { font-size: var(--text-sm); color: var(--text-muted); }
+.grid { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-6); }
+.chartSection { min-height: 400px; }
+.feedSection { min-height: 400px; }
+@media (max-width: 1024px) { .main { margin-right: 0; } .grid { grid-template-columns: 1fr; } }
