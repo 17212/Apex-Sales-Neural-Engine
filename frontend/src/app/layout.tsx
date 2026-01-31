@@ -3,14 +3,14 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 
 import type { Metadata } from 'next';
-import { Inter, Cairo } from 'next/font/google';
+import { Outfit, Cairo } from 'next/font/google';
 import '@/styles/globals.css';
 import { Providers } from './providers';
 import { Toaster } from 'react-hot-toast';
 
-const inter = Inter({
+const outfit = Outfit({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-outfit',
   display: 'swap',
 });
 
@@ -36,8 +36,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ar" dir="rtl" className={`${inter.variable} ${cairo.variable}`}>
-      <body className="bg-[var(--bg-primary)] text-white antialiased">
+    <html lang="ar" dir="rtl" className={`${outfit.variable} ${cairo.variable}`}>
+      <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased font-sans">
         <Providers>
           {children}
           <Toaster
