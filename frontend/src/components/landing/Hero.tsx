@@ -8,10 +8,15 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[var(--primary-500)]/10 rounded-full blur-[120px] animate-pulse-slow" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-[var(--secondary-500)]/10 rounded-full blur-[120px] animate-pulse-slow delay-1000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('/grid.svg')] opacity-10" />
+      {/* Background Elements - Deep Space Vibe */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Main Glow */}
+        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-[var(--primary-500)]/20 rounded-full blur-[120px] animate-pulse-slow mix-blend-screen" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-[var(--secondary-500)]/10 rounded-full blur-[100px] animate-pulse-slow delay-1000 mix-blend-screen" />
+        
+        {/* Stars / Noise overlay */}
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20 bg-fixed" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--bg-primary)]/50 to-[var(--bg-primary)]" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -37,7 +42,7 @@ export function Hero() {
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
               ضاعف مبيعاتك مع
               <br />
-              <span className="gradient-text">الموظف الذكي</span>
+              <span className="gradient-text drop-shadow-[0_0_30px_rgba(139,92,246,0.5)]">الموظف الذكي</span>
             </h1>
             
             <p className="text-lg md:text-xl text-[var(--text-secondary)] mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
@@ -88,7 +93,7 @@ export function Hero() {
               <motion.div 
                 animate={{ y: [0, -20, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute inset-4 glass-card border border-[var(--primary-500)]/30 overflow-hidden flex flex-col"
+                className="absolute inset-4 glass-card border border-[var(--primary-500)]/30 overflow-hidden flex flex-col shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] bg-[var(--bg-elevated)]/40"
               >
                 {/* Fake Chat Interface */}
                 <div className="p-4 border-b border-[var(--border-default)] flex items-center gap-3 bg-[var(--bg-secondary)]/50">

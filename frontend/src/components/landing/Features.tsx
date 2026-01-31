@@ -79,16 +79,17 @@ export function Features() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="glass-card p-8 group hover:bg-[var(--bg-elevated)] transition-all duration-300 border border-[var(--border-default)] hover:border-[var(--primary-500)]/30"
+                className="glass-card p-8 group hover:bg-[var(--bg-elevated)]/60 transition-all duration-500 border border-[var(--border-default)] hover:border-[var(--primary-500)]/50 hover:shadow-[0_0_30px_-10px_var(--primary-500)] relative overflow-hidden"
               >
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary-500)]/5 to-[var(--secondary-500)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div 
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110"
-                  style={{ backgroundColor: `${feature.color}15` }}
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 shadow-inner"
+                  style={{ backgroundColor: `${feature.color}15`, boxShadow: `0 0 20px ${feature.color}20` }}
                 >
-                  <Icon className="w-7 h-7" style={{ color: feature.color }} />
+                  <Icon className="w-7 h-7" style={{ color: feature.color, filter: `drop-shadow(0 0 5px ${feature.color})` }} />
                 </div>
-                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-[var(--text-secondary)] leading-relaxed">
+                <h3 className="text-xl font-bold mb-3 group-hover:text-[var(--primary-300)] transition-colors">{feature.title}</h3>
+                <p className="text-[var(--text-secondary)] leading-relaxed relative z-10">
                   {feature.desc}
                 </p>
               </motion.div>
