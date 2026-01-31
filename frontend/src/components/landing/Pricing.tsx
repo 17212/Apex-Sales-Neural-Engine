@@ -1,118 +1,143 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Check } from 'lucide-react';
 import Link from 'next/link';
 
 const plans = [
   {
     name: 'Starter',
-    price: 'مجاني',
-    period: 'للأبد',
-    desc: 'للمتاجر الناشئة والتجربة',
+    nameAr: 'المبتدئ',
+    price: 'مجاناً',
+    period: '',
+    description: 'للمتاجر الصغيرة والتجربة',
     features: [
-      'بوت واحد (WhatsApp)',
-      '100 محادثة / شهر',
-      'لوحة تحكم أساسية',
-      'دعم عبر البريد',
-      'تحليلات بسيطة',
+      '500 محادثة/شهر',
+      'قناة واحدة (واتساب أو تيليجرام)',
+      'تحليلات أساسية',
+      'دعم بالبريد الإلكتروني',
     ],
     cta: 'ابدأ مجاناً',
-    popular: false,
+    featured: false,
   },
   {
     name: 'Pro',
-    price: '499',
-    period: 'ج.م / شهر',
-    desc: 'للشركات الصغيرة والمتوسطة',
+    nameAr: 'الاحترافي',
+    price: '299',
+    period: '/شهر',
+    description: 'للمتاجر المتوسطة والنامية',
     features: [
-      '3 بوتات (كل القنوات)',
-      '5000 محادثة / شهر',
-      'AI متقدم (Gemini Pro)',
-      'إزالة علامة Apex المائية',
-      'دعم فني أولوي',
-      'تحليلات متقدمة',
-      'API Access',
+      '10,000 محادثة/شهر',
+      'جميع القنوات (واتساب + تيليجرام + ماسنجر)',
+      'تحليلات متقدمة + تقارير',
+      'تدريب الـ AI على منتجاتك',
+      'أولوية الدعم',
+      'تكامل مع Shopify و WooCommerce',
     ],
     cta: 'اشترك الآن',
-    popular: true,
+    featured: true,
   },
   {
     name: 'Enterprise',
-    price: 'تواصل معنا',
+    nameAr: 'المؤسسي',
+    price: 'مخصص',
     period: '',
-    desc: 'للشركات الكبرى والأحجام الضخمة',
+    description: 'للمؤسسات والشركات الكبيرة',
     features: [
-      'عدد لا محدود من البوتات',
       'محادثات غير محدودة',
-      'نماذج AI مخصصة',
-      'تكامل مخصص (Custom Integration)',
-      'مدير حساب خاص',
-      'SLA مضمونة 99.9%',
-      'On-premise Deployment',
+      'جميع القنوات + API مخصص',
+      'مدير حساب مخصص',
+      'SLA مضمون 99.9%',
+      'تدريب وتخصيص كامل',
+      'تكامل مع أي نظام',
     ],
-    cta: 'تواصل للمبيعات',
-    popular: false,
+    cta: 'تواصل معنا',
+    featured: false,
   },
 ];
 
 export function Pricing() {
   return (
-    <section id="pricing" className="py-24 bg-[var(--bg-primary)]">
-      <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-            خطط تناسب طموحك
-          </h2>
-          <p className="text-[var(--text-secondary)] text-lg">
-            ابدأ صغيراً واكبر معنا. لا تكاليف خفية، إلغاء في أي وقت.
-          </p>
+    <section id="pricing" className="py-24 md:py-32 bg-black">
+      <div className="mx-auto max-w-7xl px-6">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-sm font-medium text-zinc-500 mb-4"
+          >
+            الأسعار
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4"
+          >
+            خطط تناسب كل الأحجام
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-lg text-zinc-400"
+          >
+            ابدأ مجاناً وارتقِ حسب احتياجاتك
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
+        {/* Pricing Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {plans.map((plan, index) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
+              key={plan.name}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`relative p-8 rounded-3xl border transition-all duration-300 ${
-                plan.popular 
-                  ? 'bg-[var(--bg-elevated)] border-[var(--text-primary)] shadow-2xl z-10 scale-105' 
-                  : 'bg-[var(--bg-primary)] border-[var(--border-default)] hover:border-[var(--text-tertiary)]'
-              }`}
+              className={`relative p-8 rounded-2xl border ${
+                plan.featured
+                  ? 'border-white/20 bg-zinc-900/50'
+                  : 'border-white/5 bg-zinc-900/30'
+              } hover:border-white/20 transition-all duration-300`}
             >
-              {plan.popular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--text-primary)] text-[var(--bg-primary)] px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                  الأكثر طلباً
+              {plan.featured && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-white text-black text-xs font-medium">
+                  الأكثر شعبية
                 </div>
               )}
-
-              <div className="text-center mb-8 pt-2">
-                <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
-                <p className="text-[var(--text-secondary)] text-sm mb-6 max-w-[200px] mx-auto">{plan.desc}</p>
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-4xl font-bold tracking-tighter">{plan.price}</span>
-                  {plan.period && <span className="text-[var(--text-tertiary)] text-sm font-medium">{plan.period}</span>}
-                </div>
+              
+              <div className="mb-6">
+                <p className="text-sm text-zinc-500 mb-1">{plan.name}</p>
+                <h3 className="text-xl font-semibold text-white mb-2">{plan.nameAr}</h3>
+                <p className="text-zinc-400 text-sm">{plan.description}</p>
               </div>
-
-              <ul className="space-y-4 mb-8">
-                {plan.features.map((feat, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-[var(--text-secondary)] text-right">
-                    <Check className="w-5 h-5 text-[var(--success)] flex-shrink-0 mt-0.5" />
-                    <span>{feat}</span>
+              
+              <div className="mb-6">
+                <span className="text-4xl font-bold text-white">{plan.price}</span>
+                {plan.period && <span className="text-zinc-400">{plan.period}</span>}
+              </div>
+              
+              <ul className="space-y-3 mb-8">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3 text-sm text-zinc-300">
+                    <svg className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {feature}
                   </li>
                 ))}
               </ul>
-
-              <Link 
-                href="/login" 
-                className={`flex items-center justify-center w-full py-3 rounded-xl font-medium transition-all ${
-                  plan.popular 
-                    ? 'btn-primary' 
-                    : 'bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] border border-[var(--border-default)]'
+              
+              <Link
+                href="/dashboard"
+                className={`block w-full text-center py-3 rounded-xl font-medium transition-all ${
+                  plan.featured
+                    ? 'bg-white text-black hover:bg-zinc-200'
+                    : 'border border-white/10 text-white hover:bg-white/5'
                 }`}
               >
                 {plan.cta}
