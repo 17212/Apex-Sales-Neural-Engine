@@ -1,0 +1,114 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
+import styles from './Navbar.module.css';
+
+export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { href: '#features', label: 'المميزات' },
+    { href: '#demo', label: 'تجربة مباشرة' },
+    { href: '#pricing', label: 'الأسعار' },
+    { href: '#testimonials', label: 'آراء العملاء' },
+  ];
+
+  return (
+    <motion.header
+      className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+    >
+      <nav className={styles.nav}>
+        {/* Logo */}
+        <Link href="/" className={styles.logo}>
+          <span className={styles.logoIcon}>🧠</span>
+          <span className={styles.logoText}>APEX</span>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <ul className={styles.navLinks}>
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <a href={link.href} className={styles.navLink}>
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA Buttons */}
+        <div className={styles.cta}>
+          <Link href="/auth/login" className={styles.loginBtn}>
+            تسجيل الدخول
+          </Link>
+          <Link href="/auth/register" className={styles.registerBtn}>
+            ابدأ مجاناً
+          </Link>
+        </div>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          className={styles.mobileToggle}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span className={`${styles.hamburger} ${isMobileMenuOpen ? styles.open : ''}`}></span>
+        </button>
+      </nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            className={styles.mobileMenu}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <ul className={styles.mobileLinks}>
+              {navLinks.map((link) => (
+                <motion.li
+                  key={link.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <a
+                    href={link.href}
+                    className={styles.mobileLink}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                </motion.li>
+              ))}
+            </ul>
+            <div className={styles.mobileCta}>
+              <Link href="/auth/login" className={styles.loginBtnMobile}>
+                تسجيل الدخول
+              </Link>
+              <Link href="/auth/register" className={styles.registerBtnMobile}>
+                ابدأ مجاناً
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
+  );
+}

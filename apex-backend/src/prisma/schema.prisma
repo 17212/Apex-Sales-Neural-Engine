@@ -1,0 +1,502 @@
+// Prisma Schema for Apex Sales Neural Engine
+// Database: PostgreSQL (Neon)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// CORE ENTITIES
+// ============================================
+
+model Tenant {
+  id          String      @id @default(cuid())
+  name        String
+  subdomain   String      @unique
+  logo        String?
+  settings    Json        @default("{}")
+  aiPersona   String      @default("professional") // professional, witty, friendly, formal
+  
+  // Relations
+  users       User[]
+  products    Product[]
+  orders      Order[]
+  customers   Customer[]
+  categories  Category[]
+  conversations Conversation[]
+  knowledgeBase KnowledgeItem[]
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model User {
+  id          String      @id @default(cuid())
+  email       String      @unique
+  password    String
+  name        String
+  avatar      String?
+  role        Role        @default(AGENT)
+  isActive    Boolean     @default(true)
+  lastLogin   DateTime?
+  
+  // Relations
+  tenant      Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId    String
+  assignedConversations Conversation[]
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([tenantId])
+}
+
+// ============================================
+// CUSTOMER & CONVERSATION
+// ============================================
+
+model Customer {
+  id              String        @id @default(cuid())
+  externalId      String?       // ID from external channel (WhatsApp, etc.)
+  phone           String?
+  email           String?
+  name            String?
+  avatar          String?
+  
+  // Segmentation
+  segment         Segment       @default(REGULAR)
+  loyaltyTier     LoyaltyTier   @default(BRONZE)
+  loyaltyPoints   Int           @default(0)
+  
+  // Wallet
+  walletBalance   Float         @default(0)
+  
+  // Analytics
+  totalSpent      Float         @default(0)
+  orderCount      Int           @default(0)
+  avgOrderValue   Float         @default(0)
+  lastOrderAt     DateTime?
+  
+  // Preferences
+  preferredChannel Channel?
+  preferredLanguage String      @default("ar-EG")
+  timezone        String        @default("Africa/Cairo")
+  metadata        Json          @default("{}")
+  
+  // Relations
+  tenant          Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId        String
+  conversations   Conversation[]
+  orders          Order[]
+  walletTransactions WalletTransaction[]
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@unique([tenantId, phone])
+  @@unique([tenantId, email])
+  @@index([tenantId])
+  @@index([segment])
+}
+
+model Conversation {
+  id              String              @id @default(cuid())
+  channel         Channel             @default(WEB)
+  externalThreadId String?            // External thread ID
+  
+  // Status
+  status          ConversationStatus  @default(ACTIVE)
+  priority        Priority            @default(NORMAL)
+  
+  // AI Analysis
+  sentiment       Sentiment?
+  sentimentScore  Float?              // -1 to 1
+  intent          String?
+  intentConfidence Float?             // 0 to 1
+  
+  // Assignment
+  isAiHandled     Boolean             @default(true)
+  assignedTo      User?               @relation(fields: [assignedToId], references: [id])
+  assignedToId    String?
+  
+  // Context
+  context         Json                @default("{}") // Cart, viewed products, etc.
+  
+  // Relations
+  tenant          Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId        String
+  customer        Customer            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId      String
+  messages        Message[]
+  
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  closedAt        DateTime?
+
+  @@index([tenantId])
+  @@index([customerId])
+  @@index([status])
+}
+
+model Message {
+  id              String          @id @default(cuid())
+  direction       Direction
+  
+  // Content
+  content         String
+  contentType     ContentType     @default(TEXT)
+  mediaUrl        String?
+  
+  // AI Metadata
+  isAiGenerated   Boolean         @default(false)
+  aiModel         String?
+  tokensUsed      Int?
+  
+  // Status
+  status          MessageStatus   @default(SENT)
+  readAt          DateTime?
+  
+  metadata        Json            @default("{}")
+  
+  // Relations
+  conversation    Conversation    @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId  String
+  
+  createdAt       DateTime        @default(now())
+
+  @@index([conversationId])
+}
+
+// ============================================
+// PRODUCTS & INVENTORY
+// ============================================
+
+model Category {
+  id          String      @id @default(cuid())
+  name        String
+  slug        String
+  description String?
+  image       String?
+  parentId    String?
+  sortOrder   Int         @default(0)
+  
+  // Relations
+  tenant      Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId    String
+  products    Product[]
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@unique([tenantId, slug])
+  @@index([tenantId])
+}
+
+model Product {
+  id              String      @id @default(cuid())
+  sku             String
+  name            String
+  description     String?
+  shortDescription String?
+  
+  // Pricing
+  price           Float
+  compareAtPrice  Float?      // Original price for discounts
+  cost            Float?      // COGS
+  
+  // Inventory
+  stock           Int         @default(0)
+  lowStockThreshold Int       @default(5)
+  trackInventory  Boolean     @default(true)
+  
+  // Media
+  images          String[]
+  
+  // Attributes
+  weight          Float?
+  dimensions      Json?       // { length, width, height }
+  
+  // Status
+  isActive        Boolean     @default(true)
+  isFeatured      Boolean     @default(false)
+  
+  // SEO & AI
+  tags            String[]
+  aiDescription   String?     // AI-generated selling points
+  
+  metadata        Json        @default("{}")
+  
+  // Relations
+  tenant          Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId        String
+  category        Category?   @relation(fields: [categoryId], references: [id])
+  categoryId      String?
+  orderItems      OrderItem[]
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@unique([tenantId, sku])
+  @@index([tenantId])
+  @@index([categoryId])
+  @@index([isActive])
+}
+
+// ============================================
+// ORDERS & PAYMENTS
+// ============================================
+
+model Order {
+  id              String          @id @default(cuid())
+  orderNumber     String          @unique
+  
+  // Pricing
+  subtotal        Float
+  discountAmount  Float           @default(0)
+  shippingAmount  Float           @default(0)
+  taxAmount       Float           @default(0)
+  total           Float
+  
+  // Discount
+  discountCode    String?
+  discountType    DiscountType?
+  
+  // Status
+  status          OrderStatus     @default(PENDING)
+  paymentStatus   PaymentStatus   @default(UNPAID)
+  paymentMethod   PaymentMethod?
+  
+  // Shipping
+  shippingAddress Json?
+  shippingMethod  String?
+  trackingNumber  String?
+  estimatedDelivery DateTime?
+  
+  // Notes
+  customerNote    String?
+  internalNote    String?
+  
+  // Source
+  source          Channel         @default(WEB)
+  conversationId  String?         // Link to conversation
+  
+  // Relations
+  tenant          Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId        String
+  customer        Customer        @relation(fields: [customerId], references: [id])
+  customerId      String
+  items           OrderItem[]
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  paidAt          DateTime?
+  shippedAt       DateTime?
+  deliveredAt     DateTime?
+  cancelledAt     DateTime?
+
+  @@index([tenantId])
+  @@index([customerId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id          String      @id @default(cuid())
+  quantity    Int
+  unitPrice   Float
+  totalPrice  Float
+  
+  // Product snapshot
+  productName String
+  productSku  String
+  productImage String?
+  
+  // Relations
+  order       Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId     String
+  product     Product?    @relation(fields: [productId], references: [id])
+  productId   String?
+
+  @@index([orderId])
+}
+
+// ============================================
+// WALLET & LOYALTY
+// ============================================
+
+model WalletTransaction {
+  id          String              @id @default(cuid())
+  type        WalletTransactionType
+  amount      Float
+  balance     Float               // Balance after transaction
+  description String?
+  reference   String?             // Order ID, etc.
+  expiresAt   DateTime?
+  
+  // Relations
+  customer    Customer            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId  String
+  
+  createdAt   DateTime            @default(now())
+
+  @@index([customerId])
+}
+
+// ============================================
+// AI KNOWLEDGE BASE
+// ============================================
+
+model KnowledgeItem {
+  id          String      @id @default(cuid())
+  type        KnowledgeType
+  title       String
+  content     String      @db.Text
+  tags        String[]
+  isActive    Boolean     @default(true)
+  priority    Int         @default(0)
+  
+  // Relations
+  tenant      Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId    String
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([tenantId])
+  @@index([type])
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum Role {
+  OWNER
+  ADMIN
+  AGENT
+}
+
+enum Segment {
+  VIP
+  REGULAR
+  DISCOUNT_HUNTER
+  HIGH_CHURN_RISK
+  NEW_CUSTOMER
+}
+
+enum LoyaltyTier {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+enum Channel {
+  WEB
+  WHATSAPP
+  TELEGRAM
+  INSTAGRAM
+  MESSENGER
+}
+
+enum ConversationStatus {
+  ACTIVE
+  WAITING
+  RESOLVED
+  ESCALATED
+}
+
+enum Priority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum Sentiment {
+  POSITIVE
+  NEUTRAL
+  NEGATIVE
+  ANGRY
+}
+
+enum Direction {
+  INBOUND
+  OUTBOUND
+}
+
+enum ContentType {
+  TEXT
+  IMAGE
+  VOICE
+  VIDEO
+  DOCUMENT
+  LOCATION
+  PRODUCT_CARD
+  QUICK_REPLY
+}
+
+enum MessageStatus {
+  PENDING
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  RETURNED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PENDING
+  PAID
+  PARTIALLY_REFUNDED
+  REFUNDED
+  FAILED
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  VODAFONE_CASH
+  FAWRY
+  INSTAPAY
+  BANK_TRANSFER
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED_AMOUNT
+  FREE_SHIPPING
+}
+
+enum WalletTransactionType {
+  CREDIT
+  DEBIT
+  REFUND
+  CASHBACK
+  EXPIRED
+}
+
+enum KnowledgeType {
+  FAQ
+  PRODUCT_INFO
+  POLICY
+  OBJECTION_HANDLER
+  SCRIPT
+  GENERAL
+}
