@@ -171,5 +171,6 @@ if (env.NODE_ENV !== 'production') {
   startServer();
 }
 
-// Export for Vercel
-export default app;
+// Export for Vercel (Serverless)
+import { handle } from '@hono/node-server/vercel';
+export default handle(app);
