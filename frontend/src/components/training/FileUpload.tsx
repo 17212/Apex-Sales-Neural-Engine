@@ -3,6 +3,8 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { UploadCloud, File, X, Check, Loader2 } from 'lucide-react';
+import { apiClient } from '@/lib/api';
+import { toast } from 'react-hot-toast';
 
 export function FileUpload() {
   const [isDragging, setIsDragging] = useState(false);
@@ -40,15 +42,31 @@ export function FileUpload() {
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleUpload = () => {
+
+
+  const handleUpload = async () => {
     if (files.length === 0) return;
     setUploading(true);
-    // Simulate upload
-    setTimeout(() => {
-      setUploading(false);
+    
+    try {
+      const uploadPromises = files.map(file => {
+        const formData = new FormData();
+        formData.append('file', file);
+        return apiClient.uploadTrainingFile(formData);
+      });
+
+      await Promise.all(uploadPromises);
+      
+      toast.success(`تم رفع ${files.length} ملف بنجاح`);
       setFiles([]);
-      // Here you would trigger a toast or update parent state
-    }, 2000);
+      // Reload source list if needed (can export a context or event)
+      window.location.reload(); // Simple refresh to show new files in list
+    } catch (error) {
+      console.error('Upload Error:', error);
+      toast.error('حدث خطأ أثناء رفع الملفات');
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (

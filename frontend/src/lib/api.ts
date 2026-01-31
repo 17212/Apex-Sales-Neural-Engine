@@ -234,14 +234,39 @@ class ApiClient {
   }
 
   // Training endpoints
-  async getTrainingData() {
-    return this.request<any>('/training');
+  async getTrainingData(type?: string) {
+    const query = type ? `?type=${type}` : '';
+    return this.request<any>(`/training/data${query}`);
   }
 
   async addTrainingData(data: any) {
-    return this.request<any>('/training', {
+    return this.request<any>('/training/data', {
       method: 'POST',
       body: JSON.stringify(data),
+    });
+  }
+
+  async uploadTrainingFile(formData: FormData) {
+    const url = `${this.baseUrl}/training/upload`;
+    
+    // Custom fetch for FormData to specific URL avoiding default JSON headers
+    const headers: Record<string, string> = {};
+    if (this.token) {
+      headers['Authorization'] = `Bearer ${this.token}`;
+    }
+
+    const response = await fetch(url, {
+      method: 'POST',
+      body: formData,
+      headers,
+    });
+    
+    return response.json();
+  }
+
+  async deleteTrainingData(id: string) {
+    return this.request<any>(`/training/data/${id}`, {
+      method: 'DELETE',
     });
   }
 
