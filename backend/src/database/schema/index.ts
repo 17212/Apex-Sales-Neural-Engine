@@ -49,7 +49,8 @@ export const sentimentEnum = pgEnum('sentiment', [
 ]);
 
 export const intentEnum = pgEnum('intent', [
-  'browsing', 'comparing', 'ready_to_buy', 'support_needed', 'complaint', 'inquiry'
+  'browsing', 'comparing', 'ready_to_buy', 'support_needed', 'complaint', 'inquiry',
+  'greeting', 'farewell', 'price_objection', 'shipping_inquiry', 'return_request'
 ]);
 
 export const botModeEnum = pgEnum('bot_mode', [
@@ -150,7 +151,6 @@ export const channelConnections = pgTable('channel_connections', {
     // Facebook/Instagram
     pageAccessToken?: string;
     appId?: string;
-    appSecret?: string;
     pageId?: string;
   }>(),
   
