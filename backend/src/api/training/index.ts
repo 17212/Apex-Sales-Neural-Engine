@@ -61,6 +61,43 @@ trainingRoutes.post('/data', zValidator('json', trainingDataSchema), async (c) =
 });
 
 // ─────────────────────────────────────────────────────────────────────────────────
+// Upload File (Mock for MVP)
+// ─────────────────────────────────────────────────────────────────────────────────
+
+trainingRoutes.post('/upload', async (c) => {
+  try {
+    const body = await c.req.parseBody();
+    const file = body['file'];
+
+    if (!file || typeof file === 'string') {
+      return c.json({ success: false, error: 'لم يتم رفع أي ملف' }, 400);
+    }
+
+    // In a real Vercel app, we'd use Blob Storage (Vercel Blob or AWS S3).
+    // For this MVP/Demo, we will simulate processing and store metadata.
+    
+    // Convert current date to simulate processing
+    const processedContent = `تمت معالجة الملف: ${file.name} \nتاريخ المعالجة: ${new Date().toLocaleString('ar-EG')}`;
+
+    const [created] = await db.insert(schema.botTrainingData)
+      .values({
+        type: 'product_info', // Default type for uploads
+        title: file.name,
+        content: processedContent,
+        keywords: [file.name.split('.')[0]],
+        priority: 5,
+        isActive: true,
+      })
+      .returning();
+
+    return c.json({ success: true, data: created, message: 'تم رفع الملف ومعالجته بنجاح' }, 201);
+  } catch (error) {
+    console.error('Upload error:', error);
+    return c.json({ success: false, error: 'فشل في رفع الملف' }, 500);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────────
 // Update Training Data
 // ─────────────────────────────────────────────────────────────────────────────────
 
