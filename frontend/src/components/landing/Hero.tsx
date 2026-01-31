@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Bot, Zap, Shield, Play } from 'lucide-react';
+import { ArrowRight, Play } from 'lucide-react';
 import Link from 'next/link';
 
 export function Hero() {
@@ -28,7 +28,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-[1.1]"
+            className="text-4xl md:text-6xl font-bold tracking-tight mb-6 leading-[1.2]"
           >
              أتمتة المبيعات بذكاء
             <br />
@@ -65,18 +65,49 @@ export function Hero() {
         </div>
 
         {/* Hero Visual - Dashboard Preview */}
-                  <div className="h-24 bg-[var(--bg-tertiary)] rounded-xl border border-[var(--border-default)] p-4">
-                     <div className="w-8 h-8 rounded bg-[var(--primary-500)]/10 mb-2"></div>
-                     <div className="h-4 w-12 bg-[var(--text-secondary)]/10 rounded"></div>
-                  </div>
-                  <div className="h-24 bg-[var(--bg-tertiary)] rounded-xl border border-[var(--border-default)] p-4">
-                     <div className="w-8 h-8 rounded bg-[var(--warning)]/10 mb-2"></div>
-                     <div className="h-4 w-12 bg-[var(--text-secondary)]/10 rounded"></div>
-                  </div>
+        <motion.div
+          initial={{ opacity: 0, y: 40, rotateX: 20 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0 }}
+          transition={{ duration: 1, delay: 0.5, type: 'spring' }}
+          className="mt-20 relative perspective-[2000px]"
+        >
+          <div className="relative rounded-2xl border border-[var(--border-default)] bg-[var(--bg-elevated)]/50 backdrop-blur-xl shadow-2xl overflow-hidden aspect-[16/9] max-w-5xl mx-auto transform hover:scale-[1.01] transition-transform duration-700">
+            {/* Mock UI Header */}
+            <div className="h-10 md:h-12 border-b border-[var(--border-default)] bg-[var(--bg-secondary)]/80 flex items-center px-4 gap-2">
+              <div className="flex gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500/20 border border-red-500/50"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/20 border border-yellow-500/50"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500/20 border border-green-500/50"></div>
+              </div>
+              <div className="mx-auto px-3 py-1 rounded-md bg-[var(--bg-tertiary)] border border-[var(--border-default)] text-[10px] flex items-center justify-center text-[var(--text-tertiary)] font-mono">
+                apex-sales-engine.dashboard
+              </div>
+            </div>
+            
+            {/* Mock UI Content */}
+            <div className="p-4 md:p-6 grid grid-cols-12 gap-4 md:gap-6 h-full font-mono text-xs opacity-80">
+              {/* Sidebar */}
+              <div className="hidden md:block col-span-2 space-y-3">
+                <div className="h-8 w-full bg-[var(--primary-500)]/10 rounded-lg border border-[var(--primary-500)]/20"></div>
+                <div className="h-8 w-full bg-[var(--bg-tertiary)] rounded-lg"></div>
+                <div className="h-8 w-full bg-[var(--bg-tertiary)] rounded-lg"></div>
+                <div className="h-8 w-full bg-[var(--bg-tertiary)] rounded-lg"></div>
+              </div>
+              
+              {/* Main Area */}
+              <div className="col-span-12 md:col-span-10 space-y-4 md:space-y-6">
+                <div className="grid grid-cols-3 gap-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="h-20 md:h-24 bg-[var(--bg-tertiary)] rounded-xl border border-[var(--border-default)] p-4 flex flex-col justify-between">
+                       <div className="w-6 h-6 md:w-8 md:h-8 rounded bg-[var(--primary-500)]/10"></div>
+                       <div className="h-3 w-12 bg-[var(--text-secondary)]/10 rounded"></div>
+                    </div>
+                  ))}
                 </div>
                 
-                <div className="h-64 bg-[var(--bg-tertiary)] rounded-xl border border-[var(--border-default)] flex items-center justify-center">
-                  <div className="text-[var(--text-tertiary)]">Live Analytics Visualization...</div>
+                <div className="h-40 md:h-64 bg-[var(--bg-tertiary)] rounded-xl border border-[var(--border-default)] flex items-center justify-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.02)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%] animate-shimmer" />
+                  <div className="text-[var(--text-tertiary)] animate-pulse">Live Analytics Visualization...</div>
                 </div>
               </div>
             </div>
