@@ -328,7 +328,7 @@ export async function handleObjection(
  * Generate product recommendations
  */
 export async function getProductRecommendations(
-  customerId: string,
+  _customerId: string,
   browsingHistory: string[],
   purchaseHistory: string[],
   products: ProductInfo[]
@@ -364,7 +364,7 @@ ${products.map(p => `${p.id}: ${p.name}`).join('\n')}
 /**
  * Transcribe and analyze voice note
  */
-export async function analyzeVoiceNote(audioUrl: string): Promise<{
+export async function analyzeVoiceNote(_audioUrl: string): Promise<{
   transcription: string;
   sentiment: Sentiment;
   intent: Intent;

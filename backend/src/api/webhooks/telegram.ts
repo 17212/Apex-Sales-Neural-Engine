@@ -100,7 +100,7 @@ async function processTelegramMessage(message: any, credentials: any) {
         customerId: customer.id,
         channel: 'telegram',
         isActive: true,
-        context: { telegramChatId: chatId },
+        context: { preferences: { telegramChatId: chatId } },
       })
       .returning();
     

@@ -122,7 +122,7 @@ async function processMessengerMessage(event: any, credentials: any) {
         customerId: customer.id,
         channel: 'messenger',
         isActive: true,
-        context: { messengerSenderId: senderId },
+        context: { preferences: { messengerSenderId: senderId } },
       })
       .returning();
   }

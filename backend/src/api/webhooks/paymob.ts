@@ -57,7 +57,7 @@ paymobWebhook.post('/transaction', async (c) => {
     const transactionId = body.obj.id;
     const orderId = body.obj.order?.merchant_order_id;
     const success = body.obj.success;
-    const amountCents = body.obj.amount_cents;
+    // const amountCents = body.obj.amount_cents;
     
     if (!orderId) {
       return c.json({ status: 'no_order_id' });

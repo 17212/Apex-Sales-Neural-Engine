@@ -16,8 +16,8 @@ customersRoutes.get('/', async (c) => {
   try {
     const page = parseInt(c.req.query('page') || '1');
     const limit = parseInt(c.req.query('limit') || '20');
-    const _segment = c.req.query('segment'); // Reserved
-    const _search = c.req.query('search'); // Reserved
+    // const _segment = c.req.query('segment'); // Reserved
+    // const _search = c.req.query('search'); // Reserved
     
     const customers = await db.query.customers.findMany({
       limit,

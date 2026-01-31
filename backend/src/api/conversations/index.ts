@@ -24,7 +24,7 @@ conversationsRoutes.get('/', async (c) => {
     const limit = parseInt(c.req.query('limit') || '20');
     const channel = c.req.query('channel');
     const status = c.req.query('status'); // active, handoff, closed
-    const _search = c.req.query('search'); // Reserved for future
+    // const _search = c.req.query('search'); // Reserved for future
     
     let whereConditions = [];
     

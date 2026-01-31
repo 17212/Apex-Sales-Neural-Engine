@@ -253,7 +253,7 @@ async function processWhatsAppMessage(
   }
   
   // Save bot response
-  const [botMessage] = await db.insert(schema.messages)
+  await db.insert(schema.messages)
     .values({
       conversationId: conversation.id,
       sender: 'bot',
