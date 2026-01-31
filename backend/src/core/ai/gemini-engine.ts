@@ -4,14 +4,14 @@
 // © 2025-2026 IDRISIUM Corp. All rights reserved.
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { env, BOT_PERSONALITIES, LANGUAGES, type BotPersonality, type Language } from '../config/index.js';
 
 // ─────────────────────────────────────────────────────────────────────────────────
 // Initialize Gemini AI
 // ─────────────────────────────────────────────────────────────────────────────────
 
-const genAI = new GoogleGenAI({ apiKey: env.GEMINI_API_KEY });
+const genAI = new GoogleGenerativeAI(env.GEMINI_API_KEY);
 
 // Models
 const proModel = genAI.getGenerativeModel({ model: env.GEMINI_MODEL_PRO });
